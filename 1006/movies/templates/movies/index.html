@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="grid">
+    <div class="container text-center" style="width: 600px;">
+      <div class="mt-5 mb-5">
+        <div class="text-center">
+          <h1 class="mb-5">영화 정보 게시판</h1>
+          {% for movie in movies %}
+            <div class="p-4 mt-2 mb-5 contentcard position-relative bg-white" style="box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
+              <div class="card-header">#{{ movie.pk}}</div>
+              <div class="d-flex position-absolute top-0 end-0 m-3">
+                <a href="{% url 'movies:update' movie.pk %}" class="text-decoration-none text-secondary">
+                  <p>수정</p>
+                </a>
+                <p class="text-secondary">|</p>
+                <a href="{% url 'movies:delete' movie.pk %}" class="text-decoration-none text-secondary">
+                  <p>삭제</p>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-center fs-3 fw-bold">
+                  <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none text-dark fw-bold">{{movie.title}}</a>
+                </h5>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

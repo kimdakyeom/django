@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center my-5 p-5 border rounded-3" style="width: 600px;">
+  <h1>글 수정</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ normal_form.as_p }}
+    <!-- <label for="title">제목 : </label>
+    <input type="text" name="title" id="title" value="{{normal.title}}" valuerequired>
+    <label for="content">내용 : </label>
+    <textarea name="content" id="content" cols="30" rows="10" required>{{normal.content}}</textarea> -->
+    <input class="btn btn-dark" type="submit" value="수정">
+  </form>
+</div>
+{% endblock %}

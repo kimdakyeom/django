@@ -1,0 +1,48 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+body {
+    background-color: #E6D9FF;
+}
+
+html, body {
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+.background {
+    background-color: #E6D9FF;
+    height: 100%;
+}
+
+.contentcard:hover {
+    transform: scale(1.03);
+    transition-timing-function: cubic-bezier(1, 3, 5, 100.0);
+    box-shadow: 4px 12px 30px 6px rgb(0, 0, 0);
+}
+
+.card-background {
+    color: white;
+}
+
+.arrow {
+    color: gray;
+}
+
+.title {
+    width: 20%;
+    vertical-align: middle;
+    margin-bottom: 0;
+    color: gray;
+}
+
+.content {
+    width: 80%;
+    vertical-align: middle;
+    margin-bottom: 0;
+}
