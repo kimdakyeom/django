@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container" style="width: 600px;">
+  <div class="m-5 p-5 border border-dark">
+    <h1 class="text-center">signUp</h1>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <div class="text-center">
+        <input type="submit" class="btn btn-dark" value="submit">
+        <a href="{% url 'articles:index' %}"><input type="button" class="btn btn-light" value="cancel"></a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

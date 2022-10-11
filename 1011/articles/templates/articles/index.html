@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %} 
+<div class="text-center mt-5">
+  <a href="{% url 'accounts:signup' %}"><button class="btn btn-dark">회원 가입</button></a>
+  <a href="{% url 'articles:member' %}"><button class="btn btn-light">회원 목록</button></a>
+</div>
+{% endblock %}

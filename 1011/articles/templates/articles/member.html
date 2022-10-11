@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container text-center" style="width:600px;">
+  <div class="m-5">
+    <h1>회원 목록</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">username</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for user in users %}
+          <tr>
+          <th scope="row">{{ user.pk }}</th>
+          <td><a href="{% url 'articles:profile' user.pk %}" class="text-decoration-none text-dark fw-bold">{{ user.username }}</a></td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'articles:index' %}"><button class="btn btn-dark">회원가입 하러 가기</button></a>
+  </div>
+</div>
+{% endblock %}
