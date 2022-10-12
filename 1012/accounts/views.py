@@ -22,7 +22,9 @@ def create(request):
     if request.method == "POST":
         article_form = ArticleForm(request.POST)
         if article_form.is_valid():
-            article_form.save()
+            post = article_form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect("accounts:index")
     else:
         article_form = ArticleForm()
@@ -38,6 +40,7 @@ def update(request, pk):
         article_form = ArticleForm(request.POST, instance=articles)
         if article_form.is_valid():
             article_form.save()
+            print("3")
             return redirect("accounts:index")
     else:
         article_form = ArticleForm(instance=articles)

@@ -2,9 +2,11 @@
 {% block content %}
 <h2>제목 {{ article.title }}</h2>
 <p>내용 {{ article.content }}</p>
-<div>
-  <a href="{% url 'accounts:update' article.pk %}">수정</a>
-  <a href="{% url 'accounts:delete' article.pk %}">삭제</a>
-</div>
+{% if article.author == request.user %}
+  <div>
+    <a href="{% url 'accounts:update' article.pk %}">수정</a>
+    <a href="{% url 'accounts:delete' article.pk %}">삭제</a>
+  </div>
+{% endif %}
 <a href="{% url 'accounts:index' %}">돌아가기</a>
 {% endblock %}
