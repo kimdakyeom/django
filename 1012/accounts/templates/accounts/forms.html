@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+{%if request.resolver_match.url_name == 'create'%}
+  <h1>글쓰기</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ article_form.as_p }}
+    <input type="submit" value="submit">
+    <a href="{% url 'accounts:index' %}">cancel</a>
+  </form>
+{%endif%}
+
+{%if request.resolver_match.url_name == 'update'%}
+  <h1>글수정</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ article_form.as_p }}
+    <input type="submit" value="submit">
+    <a href="{% url 'accounts:detail' %}">cancel</a>
+  </form>
+{%endif%}
+{% endblock %}
