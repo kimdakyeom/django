@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container" style="width:600px;">
+  <div class="m-5 p-5 border">
+    <h1 class="text-center">회원정보수정</h1>
+    <form action="{% url 'accounts:userupdate' %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <a href="{% url 'accounts:change_password' %}" class="btn btn-outline-dark my-3">비밀번호 변경</a>
+      <div>
+        <input type="submit" class="btn btn-dark" value="제출">
+        <a href="{% url 'accounts:userdelete' %}" class="btn btn-light">탈퇴</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content %}

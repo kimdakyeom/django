@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="width:600px;">
+  <div class="m-5 p-5 border">
+    <h2 class="fw-bold">{{ article.title }}</h2>
+    <hr>
+    <p>{{ article.content }}</p>
+    {% if article.author == request.user %}
+      <div class="mt-5">
+        <a href="{% url 'accounts:update' article.pk %}" class="btn btn-outline-dark">수정</a>
+        <a href="{% url 'accounts:delete' article.pk %}" class="btn btn-dark">삭제</a>
+        <a href="{% url 'accounts:index' %}" class="btn btn-light">돌아가기</a>
+      </div>
+    {% else %}
+    <div class="mt-5">
+      <a href="{% url 'accounts:index' %}" class="btn btn-light">돌아가기</a>
+    </div>
+      
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
