@@ -12,8 +12,11 @@ from django.contrib.auth import get_user_model
 
 def index(request):
     articles = Article.objects.all()
+    # if articles.author_id == get_user_model().pk:
+    #     author = get_user_model.username
     context = {
         "articles": articles,
+        # "author": author,
     }
     return render(request, 'accounts/index.html', context)
 
@@ -93,6 +96,10 @@ def login(request):
 def profile(request, pk):
     user = get_user_model().objects.get(pk=pk)
     return render(request, 'accounts/profile.html', {'user': user,})
+
+def userspage(request):
+    users = get_user_model().objects.all()
+    return render(request, 'accounts/userspage.html', {'users': users,})
 
 def logout(request):
     auth_logout(request)
