@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container">
+  <div class="m-5">
+    <h2 class="fw-bold">{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    {% for photo in article.photo_set.all %}
+      <img src="{{ photo.image.url }}" class="card-img-top" style="width:20rem; height:20rem;">
+    {% endfor %}
+    <br>
+    <div class="mt-3">
+      <a href="{% url 'articles:update' article.pk %}" class="btn btn-outline-dark">수정</a>
+      <a href="{% url 'articles:delete' article.pk %}" class="btn btn-dark">삭제</a>
+      <a href="{% url 'articles:index' %}" class="btn btn-outline-dark">돌아가기</a>
+    </div>
+    <hr>
+    <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+      {% csrf_token %}
+      <div class="d-flex" style="width:100%;">
+        {% bootstrap_form comment_form layout='inline' %}
+        <input type="submit" class="btn btn-dark ms-2">
+      </div>
+    </form>
+  <h4 class="mt-2">댓글 목록</h4>
+  {% if comments %}
+    <p><b>{{ comments|length }}</b>개의 댓글이 있습니다.</p>
+  {% endif %}
+  <ul class="list-unstyled">
+    {% for comment in comments %}
+    <li class="d-flex my-3">
+      {{ comment.content }}
+      <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="삭제" class="btn btn-danger ms-2">
+      </form>
+    </li>
+    {% empty %}
+      댓글이 없습니다
+    {% endfor %}
+  </ul>
+  </div>
+</div>
+{% endblock  %}
