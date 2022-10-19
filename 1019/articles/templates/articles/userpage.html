@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="m-5 text-center">
+    <h1>{{ user }}님의 정보</h1>
+    <div class="my-4">
+      <p>아이디 | {{ user.username }}</p>
+      <p>가입시간 | {{ user.date_joined }}</p>
+    </div>
+    <div>
+    <h4>{{ user }}님이 쓴 글</h4>
+      {% for article in user.article_set.all %}
+        <a href="{% url 'articles:detail' article.pk %}" class="text-dark fw-bold">{{ article.title }}<br></a>
+      {% endfor %}
+    </div>
+    <div class="mt-4">
+    <h4>{{ user }}님이 쓴 댓글</h4>
+      {% for comment in user.comment_set.all %}
+      <a href="{% url 'articles:detail' comment.article_id %}" class="text-dark fw-bold">{{ comment.content }}<br></a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
