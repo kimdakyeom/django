@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %} 
+<div class='container text-center' style='width:800px;'>
+  <div class='m-5 '>
+    <h1>{{ user.username }}'s page</h1>
+    <div class='d-flex position-relative'>
+      <a href="{% url 'accounts:update' %}" class='position-absolute top-0 end-0 me-2 btn btn-dark'>회원정보 수정</a>
+      <div class='border rounded-3 mt-5 mx-2 p-2' style='width:50%; height:10rem;'>
+        <h3 class='align-middle'>{{ user.username }}가 쓴 글</h3>
+        {% for article in user.article_set.all %}
+          <a href="{% url 'articles:detail' article.pk %}" class="text-dark fw-bold">{{ article.title }}<br></a>
+        {% endfor %}
+      </div>
+      <div class='border rounded-3 mt-5 mx-2 p-2' style='width:50%; height:10rem;'>
+        <h3 class='align-middle'>{{ user.username }}가 쓴 댓글</h3>
+        {% for comment in user.comment_set.all %}
+        <a href="{% url 'articles:detail' comment.article_id %}" class="text-dark fw-bold">{{ comment.content }}<br></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

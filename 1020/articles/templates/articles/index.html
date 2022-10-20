@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %} 
+<div class='container'>
+  <div class='d-flex m-5'>
+    <div class='border rounded-3 p-3 m-3 text-center' style='width: 20%'>
+      <div class='my-auto'>
+        <p class='fw-bold'>로그인 정보</p>
+        {% if request.user.is_authenticated %}
+          <p>{{ request.user }}</p>
+          <a href="{% url 'accounts:mypage'%}" class='btn btn-outline-dark'>mypage</a>
+          <a href="{% url 'accounts:logout'%}" class='btn btn-dark'>logout</a>
+        {% else %}
+          <p>로그인하세요.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class='border rounded-3 p-5 m-3 text-center' style='width: 80%'>
+      <h2>게시판</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">글 제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성/수정 시간</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for article in articles %}
+            <tr>
+              <th scope="row">{{ article.pk }}</th>
+              <td><a href="{% url 'articles:detail' article.pk %}" class='text-decoration-none fw-bold text-dark'>{{ article.title }}</a></td>
+              <td><a href="{% url 'articles:userpage' article.user_id %}" class='text-decoration-none fw-bold text-dark'>{{ article.user }}</a></td>
+              <td>{{ article.updated_at }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
