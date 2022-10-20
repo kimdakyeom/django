@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'articles'
 urlpatterns = [
@@ -11,4 +13,4 @@ urlpatterns = [
     path('<int:pk>/comment/', views.comment_create, name='comment_create'),
     path('<int:article_pk>/comment/<int:comment_pk>/delete', views.comment_delete, name='comment_delete'),
     path('<int:pk>/userpage/', views.userpage, name='userpage'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

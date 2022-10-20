@@ -5,7 +5,7 @@
   <div class='m-5'>
     {% if request.resolver_match.url_name == 'create' %}
     <h1>write</h1>
-    <form action="" method='POST'>
+    <form action="" method='POST' enctype='multipart/form-data'>
       {% csrf_token %}
       {% bootstrap_form form %}
       <input type="submit" value='write' class='btn btn-dark'>
@@ -13,7 +13,7 @@
     {% endif %}
     {% if request.resolver_match.url_name == 'update' %}
     <h1>edit</h1>
-    <form action="" method='POST'>
+    <form action="" method='POST' enctype='multipart/form-data'>
       {% csrf_token %}
       {% bootstrap_form form %}
       <input type="submit" value='edit' class='btn btn-dark'>
