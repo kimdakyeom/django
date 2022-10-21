@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div class='container' style='width:600px;'>
+  <div class='m-5'>
+    <h2>{{ review.title }}</h2>
+    <hr>
+    <p>{{ review.movie_title }}</p>
+    <p>{{ review.user }}</p>
+    {% for i in ""|ljust:review.grade %}
+      <span>★</span>
+    {% endfor %}
+    <h3>{{ review.content }}</h3>
+
+    {% if user == review.user %}
+      <a href="{% url 'reviews:update' review.pk %}" class='btn btn-dark'>edit</a>
+      <a href="{% url 'reviews:delete' review.pk %}" class='btn btn-outline-dark'>delete</a>
+    {% endif %}
+
+    <hr>
+    {% if request.user.is_authenticated %}
+      <form action="{% url 'reviews:comments' review.pk %}" method='POST'>
+        {% csrf_token %}
+        {% bootstrap_form comment_form %}
+        <input type="submit">
+      </form>
+    {% endif %}
+    <h3>댓글 목록</h3>
+    {% for comment in review.comment_set.all %}
+      {{ comment.user }}|
+      {{ comment.content }}
+      {% if comment.user == request.user %}
+      <a href="{% url 'reviews:comments_delete' review.pk comment.pk %}">delete</a>
+      {% endif %} 
+      <button id='recomment-{{forloop.counter}}' onclick="add_textbox(this)">대댓글</button>
+      <div id='new_recomment-{{forloop.counter}}' style='display:none;'>
+        <form action="{% url 'reviews:recomments' review.id %}" method='POST'>
+          {% csrf_token %}
+          {% bootstrap_form recomment_form %}
+          <input type="hidden" name="comment" value={{comment.id}}>
+          <input type="submit">
+        </form>
+      </div>
+
+
+      {% for recomment in comment.recomment_set.all %}
+      <br>
+        ->{{ recomment.user }}|
+        {{ recomment.body }}
+        {{ recomment.updated_at }}
+      {% endfor %}
+      <br>
+
+    {% empty %}
+    <p>댓글이 없습니다.</p>
+    {% endfor %}
+  </div>
+<div>
+
+<script>
+  const add_textbox = (e) => {
+      const recomment = document.getElementById(e.id);
+      const new_recomment = document.getElementById("new_" + e.id);
+      new_recomment.style.display = "";
+      
+  }
+</script>
+
+{% endblock %}

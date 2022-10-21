@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<h1>{{ user }} 님</h1>
+<p>내가 쓴 글 : 
+  {% for review in user.review_set.all %}
+    <a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+  {% endfor %}
+</p>
+<p>내가 쓴 댓글 : 
+  {% for comment in user.comment_set.all %}
+    <a href="{% url 'reviews:detail' comment.review_id %}">{{ comment.content }}</a>
+  {% endfor %}
+</p>
+{% endblock %}

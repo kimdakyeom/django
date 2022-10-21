@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class='container'>
+  <div class='m-5 text-center'>
+    {% for movie in movies %}
+      {% if pk == movie.num %}
+        <h2><span class='fw-bold'>'{{ movie.title }}'</span> 게시판</h2>
+      {% endif %}
+    {% endfor %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">글 제목</th>
+          <th scope="col">작성자</th>
+          <th scope="col">평점</th>
+          <th scope="col">수정시간</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+        <tr>
+            <th scope="row"><a href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a></th>
+            
+            <td>{{ review.user }}</td>
+            <td>
+              {% for i in ""|ljust:review.grade %}
+              ★
+              {% endfor %}
+            </td>
+            <td>{{ review.updated_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+{% endblock %}
