@@ -30,14 +30,16 @@ class Review(models.Model):
     updated_at = models.DateField(auto_now=True)
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     content = models.CharField(max_length=50)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted = models.BooleanField(default=False)
 
 class ReComment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    body = models.CharField('대댓글', max_length=150)
+    body = models.CharField(max_length=150)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

@@ -1,6 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm, CommentForm, ReCommentForm
 from .models import Review, Comment
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 
 def index(request):
     reviews = Review.objects.all()

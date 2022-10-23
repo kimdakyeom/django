@@ -18,3 +18,6 @@ class ReCommentForm(forms.ModelForm):
     class Meta:
         model = ReComment
         fields = ('body',)
+        labels = {
+            'body': '',
+        }

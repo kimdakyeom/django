@@ -6,51 +6,66 @@
   <div class='m-5'>
     <h2>{{ review.title }}</h2>
     <hr>
-    <p>{{ review.movie_title }}</p>
-    <p>{{ review.user }}</p>
-    {% for i in ""|ljust:review.grade %}
-      <span>★</span>
-    {% endfor %}
+    <p class="float-end ms-2">작성자 | {{ review.user }}</p>
+    <p class="float-end">
+      {% for i in ""|ljust:review.grade %}
+        <span>★</span>
+      {% endfor %}
+    </p>
     <h3>{{ review.content }}</h3>
 
     {% if user == review.user %}
-      <a href="{% url 'reviews:update' review.pk %}" class='btn btn-dark'>edit</a>
-      <a href="{% url 'reviews:delete' review.pk %}" class='btn btn-outline-dark'>delete</a>
+      <a href="{% url 'reviews:update' review.pk %}" class='btn btn-dark'>수정</a>
+      <a href="{% url 'reviews:delete' review.pk %}" class='btn btn-outline-dark'>삭제</a>
     {% endif %}
 
     <hr>
     {% if request.user.is_authenticated %}
       <form action="{% url 'reviews:comments' review.pk %}" method='POST'>
         {% csrf_token %}
-        {% bootstrap_form comment_form %}
-        <input type="submit">
+        <div class='d-flex w-100'>
+          <div class='w-100'>
+            {% bootstrap_form comment_form %}
+          </div>
+          <input type="submit" class="ms-2 btn btn-dark" style="height:2.4rem;">
+        </div>
       </form>
     {% endif %}
     <h3>댓글 목록</h3>
     {% for comment in review.comment_set.all %}
+    <div class="mt-1">
       {{ comment.user }}|
       {{ comment.content }}
+      <span class="text-secondary">{{ comment.updated_at }}</span>
       {% if comment.user == request.user %}
-      <a href="{% url 'reviews:comments_delete' review.pk comment.pk %}">delete</a>
+      <a href="{% url 'reviews:comments_delete' review.pk comment.pk %}" class="btn btn-dark">삭제</a>
       {% endif %} 
-      <button id='recomment-{{forloop.counter}}' onclick="add_textbox(this)">대댓글</button>
+      <button id='recomment-{{forloop.counter}}' onclick="add_textbox(this)" class="btn btn-outline-dark">답글</button>
       <div id='new_recomment-{{forloop.counter}}' style='display:none;'>
-        <form action="{% url 'reviews:recomments' review.id %}" method='POST'>
+        <form action="{% url 'reviews:recomments' review.id %}" method='POST' class="mt-3">
           {% csrf_token %}
-          {% bootstrap_form recomment_form %}
-          <input type="hidden" name="comment" value={{comment.id}}>
-          <input type="submit">
+          <div class='d-flex w-100'>
+            <div class='w-100'>
+              {% csrf_token %}
+              {% bootstrap_form recomment_form %}
+            </div>
+            <input type="hidden" name="comment" value={{comment.id}}>
+            <input id="comment_write" type="submit" class="ms-2 btn btn-dark" style="height:2.4rem;">
+          </div>
         </form>
       </div>
+    </div>
 
-
-      {% for recomment in comment.recomment_set.all %}
-      <br>
-        ->{{ recomment.user }}|
-        {{ recomment.body }}
-        {{ recomment.updated_at }}
-      {% endfor %}
-      <br>
+    {% for recomment in comment.recomment_set.all %}
+    <div class="my-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right me-1" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+      </svg>
+      {{ recomment.user }}<span class="mx-1">|</span>
+      {{ recomment.body }}
+      <span class="text-secondary">{{ recomment.updated_at }}</span>
+    </div>
+    {% endfor %}
 
     {% empty %}
     <p>댓글이 없습니다.</p>
@@ -58,13 +73,13 @@
   </div>
 <div>
 
-<script>
+<script type="text/javascript">
   const add_textbox = (e) => {
       const recomment = document.getElementById(e.id);
       const new_recomment = document.getElementById("new_" + e.id);
       new_recomment.style.display = "";
-      
   }
+
 </script>
 
 {% endblock %}
