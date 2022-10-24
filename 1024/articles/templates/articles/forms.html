@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container" style="width:600px;">
+  <div class="m-5">
+    <div class="container">
+      <form action="" method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {% bootstrap_form article_form %}
+        {% bootstrap_form photo_form %}
+        <input type="submit" value="제출" class="btn btn-dark mt-3">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock  %}

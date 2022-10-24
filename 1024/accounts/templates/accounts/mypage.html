@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="m-5 text-center">
+    <h1>{{ user }}님의 마이페이지</h1>
+    <p>아이디 | {{ user.username }}</p>
+    <p>가입시간 | {{ user.date_joined }}</p>
+    <div class="mt-4">
+      <h3>내가 쓴 글</h3>
+      {% for article in user.article_set.all %}
+        <a href="{% url 'articles:detail' article.pk %}" class="text-dark fw-bold">{{ article.title }}<br></a>
+      {% endfor %}
+    </div>
+    <div class="mt-4">
+      <h3>내가 쓴 댓글</h3>
+      {% for comment in user.comment_set.all %}
+      <a href="{% url 'articles:detail' comment.article_id %}" class="text-dark fw-bold">{{ comment.content }}<br></a>
+      {% endfor %}
+    </div>
+    <div class="mt-4">
+      <h3>내가 좋아요 누른 글</h3>
+      {% for article in user.like_articles.all %}
+        <a href="{% url 'articles:detail' article.pk %}" class="text-dark fw-bold">{{ article.content }}<br></a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
