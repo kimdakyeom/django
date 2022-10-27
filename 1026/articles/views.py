@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+import json
 
 def index(request):
     articles = Article.objects.order_by('-pk')
@@ -139,25 +140,32 @@ def comments_create(request, pk):
         'article_pk': pk,
         'user': user,
     }
-    print(context)
     return JsonResponse(context)
 
 @login_required
 def comments_update(request, article_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     comment_username = comment.user.username
+    user = request.user.pk
+    jsonObject = json.loads(request.body)
     if request.method == 'POST':
-        comment_form = CommentForm(request.POST, instance=comment)
-        if comment_form.is_valid():
-            comment_form.save()
-            return redirect('articles:index')
-    else:
-        comment_form = CommentForm(instance=comment)
+        comment.content = jsonObject.get('content')
+        comment.save()
+    temp = Comment.objects.filter(article_id=article_pk).order_by('-pk')
+    comment_data = []
+    for t in temp:
+        comment_data.append({
+            'userId':t.user_id, 
+            'userName': t.user.username, 
+            'content': t.content,
+            'commentPk': t.pk,
+        })
     context = {
-
-        'comment_form': comment_form,
+        'comment_data': comment_data,
         'comment_pk': comment_pk,
         'comment_username': comment_username,
+        'article_pk': article_pk,
+        'user': user,
     }
     return JsonResponse(context)
 
