@@ -41,9 +41,6 @@
       </div>
     </form>
   <h4 class="mb-3 fw-bold">댓글 목록</h4>
-  {% if comments %}
-    <b>{{ comments|length }}</b>개의 댓글이 있습니다.
-  {% endif %}
   <div id="comments">
     {% for comment in comments %}
       <div id="comment">
